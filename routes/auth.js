@@ -4,12 +4,19 @@ const User = require("../models/User");
 const { check, validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const auth = require("../middleware/auth");
 
 // @route       GET api/auth
 // @desc        Gets Current User
 // @access      Private
-router.get("/", (req, res) => {
-  res.send("Get Current User");
+router.get("/", auth, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select("-password");
+    res.json(user);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("API Error");
+  }
 });
 
 // @route       POST api/auth
