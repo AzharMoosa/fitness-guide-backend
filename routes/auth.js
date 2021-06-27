@@ -15,7 +15,7 @@ router.get("/", auth, async (req, res) => {
     res.json(user);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send("API Error");
+    res.status(500).json("API Error");
   }
 });
 
@@ -69,7 +69,7 @@ router.post(
       );
     } catch (err) {
       console.error(err.message);
-      res.status(500).send("API Error");
+      res.status(500).json("API Error");
     }
   }
 );

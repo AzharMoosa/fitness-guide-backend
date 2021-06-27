@@ -9,7 +9,7 @@ const ExerciseSchema = mongoose.Schema({
     type: Number,
     min: 0,
   },
-  repitions: {
+  repetitions: {
     type: Number,
     min: 0,
   },
