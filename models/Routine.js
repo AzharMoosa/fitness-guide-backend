@@ -9,9 +9,13 @@ const RoutineSchema = mongoose.Schema({
     type: Boolean,
     default: false,
   },
-  routine: {
+  routines: {
     type: Array,
     default: [],
+  },
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "users",
   },
   date: {
     type: Date,

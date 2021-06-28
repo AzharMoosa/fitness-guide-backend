@@ -9,6 +9,10 @@ const SessionSchema = mongoose.Schema({
     type: Array,
     default: [],
   },
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "users",
+  },
 });
 
 module.exports = mongoose.model("session", SessionSchema);
