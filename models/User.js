@@ -14,10 +14,6 @@ const UserSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  userinfo: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "userinfos",
-  },
   date: {
     type: Date,
     default: Date.now,
