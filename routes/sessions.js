@@ -49,12 +49,13 @@ router.post(
     }
 
     // Extract Session Data
-    const { day } = req.body;
+    const { day, exercises } = req.body;
 
     try {
       // Create New Session
       const session = new Session({
         day,
+        exercises,
         user: req.user.id,
       });
 
