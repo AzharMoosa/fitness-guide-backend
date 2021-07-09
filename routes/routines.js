@@ -49,7 +49,7 @@ router.post(
     }
 
     // Extract Routine Data
-    const { name } = req.body;
+    const { name, isActive, routines } = req.body;
 
     try {
       // Check If Routine Exists
@@ -61,6 +61,8 @@ router.post(
       // Create New Routine
       routine = new Routine({
         name,
+        isActive,
+        routines,
         user: req.user.id,
       });
 
