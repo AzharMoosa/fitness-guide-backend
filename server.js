@@ -1,10 +1,11 @@
 const express = require("express");
 const connectDB = require("./config/db");
 const app = express();
+const path = require("path");
 const http = require("http");
+const socketio = require("socket.io");
 const server = http.createServer(app);
-const { Server } = require("socket.io");
-const io = new Server(server);
+const io = socketio(server);
 
 // Connect Database
 connectDB();
@@ -18,10 +19,6 @@ app.use("/api/auth", require("./routes/auth"));
 app.use("/api/routines", require("./routes/routines"));
 app.use("/api/exercises", require("./routes/exercises"));
 app.use("/api/sessions", require("./routes/sessions"));
-
-// Start Server
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log("Welcome To The Fitness Application API"));
 
 // Chat Server
 io.on("connection", (socket) => {
@@ -83,3 +80,9 @@ io.on("connection", (socket) => {
     console.log("User Has Disconnected From Server");
   });
 });
+
+// Start Server
+const PORT = process.env.PORT || 5000;
+server.listen(PORT, () =>
+  console.log("Welcome To The Fitness Application API")
+);
