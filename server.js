@@ -27,19 +27,20 @@ io.on("connection", (socket) => {
 
   socket.on("subscribe", (data) => {
     console.log("Socket: Subscribe");
-    const roomData = JSON.parse(data);
+    const roomData = data;
     name = roomData.name;
     const roomName = roomData.roomName;
 
     socket.join(`${roomName}`);
     console.log(`${name} Has Joined Chat: ${roomName}`);
 
-    io.to(`${roomName}`).emit("newUserToChatRoom", name);
+    // io.to(`${roomName}`).emit("newUserToChatRoom", name);
+    socket.broadcast.to(`${roomName}`).emit("newUserToChatRoom", name);
   });
 
   socket.on("unsubscribe", (data) => {
     console.log("Socket: Unsubscribe");
-    const roomData = JSON.parse(data);
+    const roomData = data;
     const name = roomData.name;
     const roomName = roomData.roomName;
 
@@ -51,7 +52,7 @@ io.on("connection", (socket) => {
   socket.on("newMessage", (data) => {
     console.log("New Message Sent");
 
-    const messageData = JSON.parse(data);
+    const messageData = data;
     const messageContent = messageData.messageContent;
     const roomName = messageData.roomName;
 
@@ -61,9 +62,8 @@ io.on("connection", (socket) => {
       messageContent: messageContent,
       roomName: roomName,
     };
-    socket.broadcast
-      .to(`${roomName}`)
-      .emit("updateChat", JSON.stringify(chatData));
+    io.to(`${roomName}`).emit("updateChat", chatData);
+    // socket.broadcast.to(`${roomName}`).emit("updateChat", chatData);
   });
 
   socket.on("typing", (roomNumber) => {
