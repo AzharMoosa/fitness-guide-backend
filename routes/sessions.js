@@ -89,7 +89,7 @@ router.put("/:id", auth, async (req, res) => {
 
     // Create Updated Session
     if (exercise) {
-      updatedSession.exercises = [exercise.id, ...session.exercises];
+      updatedSession.exercises = [exercise, ...session.exercises];
     }
 
     // Update Session
