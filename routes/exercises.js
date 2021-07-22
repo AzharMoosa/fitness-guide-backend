@@ -18,7 +18,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-// @route       GET api/exercises
+// @route       GET api/exercises/id
 // @desc        Get Exercise By ID
 // @access      Public
 router.get("/:id", async (req, res) => {
@@ -27,6 +27,21 @@ router.get("/:id", async (req, res) => {
     let exercise = await Exercise.findById(req.params.id);
     // Output Exercise
     res.json(exercise);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json("API Error");
+  }
+});
+
+// @route       GET api/exercises/type/:type
+// @desc        Get Exercise By Type
+// @access      Public
+router.get("/type/:type", async (req, res) => {
+  try {
+    // Find Exercises
+    let exercises = await Exercise.find({ type: req.params.type });
+    // Output Exercise
+    res.json(exercises);
   } catch (err) {
     console.error(err.message);
     res.status(500).json("API Error");
