@@ -1,14 +1,12 @@
 import express from "express";
 const router = express.Router();
-import auth from "../middleware/auth.js";
-import User from "../models/User.js";
 import Exercise from "../models/Exercise.js";
 import { check, validationResult } from "express-validator";
 
 // @route       GET api/exercises
 // @desc        Get All Exercises
-// @access      Private
-router.get("/", auth, async (req, res) => {
+// @access      Public
+router.get("/", async (req, res) => {
   try {
     // Find All Exercises
     let exercises = await Exercise.find();
@@ -22,8 +20,8 @@ router.get("/", auth, async (req, res) => {
 
 // @route       GET api/exercises
 // @desc        Get Exercise By ID
-// @access      Private
-router.get("/:id", auth, async (req, res) => {
+// @access      Public
+router.get("/:id", async (req, res) => {
   try {
     // Find Exercise
     let exercise = await Exercise.findById(req.params.id);
@@ -37,14 +35,12 @@ router.get("/:id", auth, async (req, res) => {
 
 // @route       POST api/exercises
 // @desc        Create Exercise
-// @access      Private
+// @access      Public
 router.post(
   "/",
   [
-    auth,
     check("name", "Name is Required").not().isEmpty(),
-    check("sets", "Set Number Must Be Numerical").isNumeric(),
-    check("repetitions", "Repetition Number Must Be Numerical").isNumeric(),
+    check("type", "Type is Required").not().isEmpty(),
   ],
   async (req, res) => {
     // Error Handling
@@ -54,7 +50,7 @@ router.post(
     }
 
     // Extract Exercise Data
-    const { name, sets, repetitions } = req.body;
+    const { name, type, description, info } = req.body;
 
     try {
       // Check If Exercise Exists
@@ -66,8 +62,9 @@ router.post(
       // Create New Exercise
       exercise = new Exercise({
         name,
-        sets,
-        repetitions,
+        type,
+        description,
+        info,
       });
 
       // Save Exercise To DB
@@ -84,9 +81,9 @@ router.post(
 
 // @route       PUT api/exercises
 // @desc        Update Exercise By ID
-// @access      Private
-router.put("/:id", auth, async (req, res) => {
-  const { name, sets, repetitions } = req.body;
+// @access      Public
+router.put("/:id", async (req, res) => {
+  const { name, type, description, info } = req.body;
   const updatedExercise = {};
 
   try {
@@ -103,12 +100,16 @@ router.put("/:id", auth, async (req, res) => {
       updatedExercise.name = name;
     }
 
-    if (sets) {
-      updatedExercise.sets = sets;
+    if (type) {
+      updatedExercise.type = type;
     }
 
-    if (repetitions) {
-      updatedExercise.repetitions = repetitions;
+    if (description) {
+      updatedExercise.description = description;
+    }
+
+    if (info) {
+      updatedExercise.info = info;
     }
 
     // Update Exercise
@@ -128,8 +129,8 @@ router.put("/:id", auth, async (req, res) => {
 
 // @route       DELETE api/exercises
 // @desc        Delete Exercise By ID
-// @access      Private
-router.delete("/:id", auth, async (req, res) => {
+// @access      Public
+router.delete("/:id", async (req, res) => {
   try {
     // Find Exercise
     let exercise = await Exercise.findById(req.params.id);
