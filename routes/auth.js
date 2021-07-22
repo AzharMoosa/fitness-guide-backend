@@ -1,10 +1,10 @@
-const express = require("express");
+import express from "express";
 const router = express.Router();
-const User = require("../models/User");
-const { check, validationResult } = require("express-validator");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const auth = require("../middleware/auth");
+import User from "../models/User.js";
+import { check, validationResult } from "express-validator";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import auth from "../middleware/auth.js";
 
 // @route       GET api/auth
 // @desc        Gets Current User

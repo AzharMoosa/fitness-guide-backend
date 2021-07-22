@@ -1,9 +1,9 @@
-const express = require("express");
+import express from "express";
 const router = express.Router();
-const auth = require("../middleware/auth");
-const User = require("../models/User");
-const Exercise = require("../models/Exercise");
-const { check, validationResult } = require("express-validator");
+import auth from "../middleware/auth.js";
+import User from "../models/User.js";
+import Exercise from "../models/Exercise.js";
+import { check, validationResult } from "express-validator";
 
 // @route       GET api/exercises
 // @desc        Get All Exercises

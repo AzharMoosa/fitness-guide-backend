@@ -1,9 +1,9 @@
-const express = require("express");
-const connectDB = require("./config/db");
+import express from "express";
+import connectDB from "./config/db.js";
 const app = express();
-const path = require("path");
-const http = require("http");
-const socketio = require("socket.io");
+import path from "path";
+import http from "http";
+import socketio from "socket.io";
 const server = http.createServer(app);
 const io = socketio(server);
 
