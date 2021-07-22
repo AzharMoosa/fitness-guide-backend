@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import colors from "colors";
 import dotenv from "dotenv";
 dotenv.config();
 const db = process.env.MONGODB_URI;
@@ -11,7 +12,7 @@ const connectDB = async () => {
       useUnifiedTopology: true,
       useFindAndModify: false,
     });
-    console.log("MongoDB Connected");
+    console.log("MongoDB Connected".yellow.inverse);
   } catch (err) {
     console.error(err.message);
     process.exit(1);

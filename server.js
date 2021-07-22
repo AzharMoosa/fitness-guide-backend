@@ -3,9 +3,15 @@ import connectDB from "./config/db.js";
 const app = express();
 import path from "path";
 import http from "http";
-import socketio from "socket.io";
+import { Server } from "socket.io";
+import colors from "colors";
+import usersRouter from "./routes/users.js";
+import authRouter from "./routes/auth.js";
+import routinesRouter from "./routes/routines.js";
+import exercisesRouter from "./routes/exercises.js";
+import sessionsRouter from "./routes/sessions.js";
 const server = http.createServer(app);
-const io = socketio(server);
+const io = new Server(server, { cors: { origin: "*" } });
 
 // Connect Database
 connectDB();
@@ -14,11 +20,11 @@ connectDB();
 app.use(express.json({ extended: false }));
 
 // Routes
-app.use("/api/users", require("./routes/users"));
-app.use("/api/auth", require("./routes/auth"));
-app.use("/api/routines", require("./routes/routines"));
-app.use("/api/exercises", require("./routes/exercises"));
-app.use("/api/sessions", require("./routes/sessions"));
+app.use("/api/users", usersRouter);
+app.use("/api/auth", authRouter);
+app.use("/api/routines", routinesRouter);
+app.use("/api/exercises", exercisesRouter);
+app.use("/api/sessions", sessionsRouter);
 
 // Chat Server
 io.on("connection", (socket) => {
@@ -84,5 +90,5 @@ io.on("connection", (socket) => {
 // Start Server
 const PORT = process.env.PORT || 5000;
 server.listen(PORT, () =>
-  console.log("Welcome To The Fitness Application API")
+  console.log("Welcome To The Fitness Application API".cyan.bold)
 );

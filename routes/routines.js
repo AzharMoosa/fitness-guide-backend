@@ -58,6 +58,15 @@ router.post(
         return res.status(400).json({ msg: "Routine Already Exists" });
       }
 
+      // Set All Routines To Not Active
+      if (isActive) {
+        const routines = await Routine.find({ user: req.user.id });
+        routines.map((current_routine) => {
+          current_routine.isActive = false;
+          return current_routine;
+        });
+      }
+
       // Create New Routine
       routine = new Routine({
         name,
@@ -146,4 +155,4 @@ router.delete("/:id", auth, async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;
