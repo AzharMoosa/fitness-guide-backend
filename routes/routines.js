@@ -20,6 +20,21 @@ router.get("/", auth, async (req, res) => {
   }
 });
 
+// @route       GET api/routines/active
+// @desc        Get Active Routine
+// @access      Private
+router.get("/active", auth, async (req, res) => {
+  try {
+    // Find Active Routine
+    let routine = await Routine.find({ user: req.user.id, isActive: true });
+    // Output Routine
+    res.json(routine);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json("API Error");
+  }
+});
+
 // @route       GET api/routines
 // @desc        Get Routine By ID
 // @access      Private
