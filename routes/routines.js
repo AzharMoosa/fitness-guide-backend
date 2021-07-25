@@ -76,10 +76,16 @@ router.post(
       // Set All Routines To Not Active
       if (isActive) {
         const routines = await Routine.find({ user: req.user.id });
-        routines.map((current_routine) => {
-          current_routine.isActive = false;
-          return current_routine;
-        });
+
+        for (let i = 0; i < routines.length; i++) {
+          // Update Routine
+          await Routine.findByIdAndUpdate(
+            routines[i]._id,
+            { $set: { isActive: false } },
+            { new: true }
+          );
+        }
+        updatedRoutine.isActive = true;
       }
 
       // Create New Routine
@@ -128,7 +134,19 @@ router.put("/:id", auth, async (req, res) => {
     }
 
     if (isActive) {
-      updatedRoutine.isActive = isActive;
+      const routines = await Routine.find({ user: req.user.id });
+
+      for (let i = 0; i < routines.length; i++) {
+        // Update Routine
+        await Routine.findByIdAndUpdate(
+          routines[i]._id,
+          { $set: { isActive: false } },
+          { new: true }
+        );
+      }
+      updatedRoutine.isActive = true;
+    } else {
+      updatedRoutine.isActive = false;
     }
 
     // Update Routine
