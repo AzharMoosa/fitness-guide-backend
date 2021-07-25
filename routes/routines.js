@@ -85,7 +85,6 @@ router.post(
             { new: true }
           );
         }
-        updatedRoutine.isActive = true;
       }
 
       // Create New Routine
