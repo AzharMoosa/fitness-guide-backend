@@ -6,6 +6,8 @@ import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 dotenv.config();
 import User from "../models/User.js";
+import auth from "../middleware/auth.js";
+import generateToken from "../utils/generateToken.js";
 
 // @route       POST api/users
 // @desc        Registers New User
@@ -70,5 +72,38 @@ router.post(
     }
   }
 );
+
+// @route       PUT api/users/:id
+// @desc        Updates User
+// @access      Private
+router.put("/:id", [auth], async (req, res) => {
+  try {
+    // Check User Exists
+    let user = await User.findById(req.params.id);
+    if (!user) {
+      return res.status(400).json({ msg: "User Does Not Exist" });
+    }
+
+    user.name = req.body.name || user.name;
+    user.email = req.body.email || user.email;
+
+    if (req.body.password) {
+      const salt = await bcrypt.genSalt(10);
+      user.password = await bcrypt.hash(req.body.password, salt);
+    }
+
+    const updatedUser = await user.save();
+
+    res.json({
+      _id: updatedUser._id,
+      name: updatedUser.name,
+      email: updatedUser.email,
+      token: generateToken(updatedUser._id),
+    });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json("API Error");
+  }
+});
 
 export default router;
