@@ -5,6 +5,7 @@ import { check, validationResult } from "express-validator";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import auth from "../middleware/auth.js";
+import generateToken from "../utils/generateToken.js";
 
 // @route       GET api/auth
 // @desc        Gets Current User
@@ -48,25 +49,12 @@ router.post(
         return res.status(400).json({ msg: "Email Or Password Not Valid" });
       }
 
-      const payload = {
-        user: {
-          id: user.id,
-        },
-      };
-
-      jwt.sign(
-        payload,
-        process.env.JWT_SECRET,
-        {
-          expiresIn: 31600000,
-        },
-        (err, token) => {
-          if (err) {
-            throw err;
-          }
-          res.json({ token });
-        }
-      );
+      res.json({
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        token: generateToken(user._id),
+      });
     } catch (err) {
       console.error(err.message);
       res.status(500).json("API Error");
