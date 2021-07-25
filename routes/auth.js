@@ -12,8 +12,17 @@ import generateToken from "../utils/generateToken.js";
 // @access      Private
 router.get("/", auth, async (req, res) => {
   try {
-    const user = await User.findById(req.user._id).select("-password");
-    res.json(user);
+    const user = await User.findById(req.user._id);
+    if (user) {
+      res.json({
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        token: generateToken(user._id),
+      });
+    } else {
+      res.status(404).json({ error: "User Not Found" });
+    }
   } catch (err) {
     console.error(err.message);
     res.status(500).json("API Error");
