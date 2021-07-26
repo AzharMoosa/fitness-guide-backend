@@ -111,7 +111,7 @@ router.post(
 // @desc        Update Routine By ID
 // @access      Private
 router.put("/:id", auth, async (req, res) => {
-  const { name, session, isActive } = req.body;
+  const { name, routines, isActive } = req.body;
   const updatedRoutine = {};
 
   try {
@@ -124,8 +124,8 @@ router.put("/:id", auth, async (req, res) => {
     }
 
     // Create Updated Routine
-    if (session) {
-      updatedRoutine.routines = [session.id, ...routine.routines];
+    if (routines) {
+      updatedRoutine.routines = routines;
     }
 
     if (name) {
