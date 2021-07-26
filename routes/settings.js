@@ -42,8 +42,6 @@ router.post("/", auth, async (req, res) => {
     // Create New Setting
     const settings = new Settings({
       user: req.user.id,
-      health_information: {},
-      chat_settings: {},
     });
 
     // Save Setting To DB

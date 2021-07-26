@@ -8,6 +8,7 @@ dotenv.config();
 import User from "../models/User.js";
 import auth from "../middleware/auth.js";
 import generateToken from "../utils/generateToken.js";
+import Settings from "../models/Settings.js";
 
 // @route       POST api/users
 // @desc        Registers New User
@@ -46,6 +47,11 @@ router.post(
       user.password = await bcrypt.hash(password, salt);
 
       const createdUser = await user.save();
+
+      const settings = new Settings({
+        user: createdUser._id,
+      });
+      await settings.save();
 
       res.json({
         _id: createdUser._id,

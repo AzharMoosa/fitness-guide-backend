@@ -6,6 +6,7 @@ import exercises from "./data/exercises.js";
 import User from "./models/User.js";
 import Routine from "./models/Routine.js";
 import Exercise from "./models/Exercise.js";
+import Settings from "./models/Settings.js";
 import connectDB from "./config/db.js";
 
 dotenv.config();
@@ -18,6 +19,17 @@ const importData = async () => {
     await User.deleteMany();
     const createdUsers = await User.insertMany(users);
     console.log("Users Created!".cyan.bold);
+
+    // Create Settings For Each User
+    await Settings.deleteMany();
+    for (let i = 0; i < createdUsers.length; i++) {
+      const settings = new Settings({
+        user: createdUsers[i]._id,
+      });
+      await settings.save();
+    }
+
+    console.log("Settings Created!".cyan.bold);
 
     // Create Routines
     await Routine.deleteMany();
@@ -103,6 +115,7 @@ const destroyData = async () => {
     await User.deleteMany();
     await Routine.deleteMany();
     await Exercise.deleteMany();
+    await Settings.deleteMany();
 
     console.log("Data Destroyed!".red.inverse);
 
