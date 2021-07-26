@@ -26,9 +26,11 @@ const SettingsSchema = mongoose.Schema({
   chat_settings: {
     custom_name: {
       type: String,
+      default: "",
     },
     isVisible: {
       type: Boolean,
+      default: true,
     },
   },
 });

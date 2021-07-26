@@ -83,8 +83,11 @@ router.put("/:id", auth, async (req, res) => {
     updatedSettings.health_information.gender = gender || health.gender;
     updatedSettings.health_information.height = height || health.height;
     updatedSettings.health_information.weight = weight || health.weight;
-
     updatedSettings.chat_settings.custom_name = custom_name || chat.custom_name;
+    if (custom_name == "") {
+      updatedSettings.chat_settings.custom_name = "";
+    }
+
     updatedSettings.chat_settings.isVisible = isVisible ? true : false;
 
     // Update Setting
