@@ -10,6 +10,7 @@ import authRouter from "./routes/auth.js";
 import routinesRouter from "./routes/routines.js";
 import exercisesRouter from "./routes/exercises.js";
 import sessionsRouter from "./routes/sessions.js";
+import settingsRouter from "./routes/settings.js";
 const server = http.createServer(app);
 const io = new Server(server, { cors: { origin: "*" } });
 
@@ -25,6 +26,7 @@ app.use("/api/auth", authRouter);
 app.use("/api/routines", routinesRouter);
 app.use("/api/exercises", exercisesRouter);
 app.use("/api/sessions", sessionsRouter);
+app.use("/api/settings", settingsRouter);
 
 // Chat Server
 io.on("connection", (socket) => {
