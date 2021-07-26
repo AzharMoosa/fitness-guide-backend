@@ -10,7 +10,7 @@ import { check, validationResult } from "express-validator";
 router.get("/", auth, async (req, res) => {
   try {
     // Find All Settings
-    let settings = await Settings.find({ user: req.user.id });
+    let settings = await Settings.findOne({ user: req.user.id });
     // Output Settings
     res.json(settings);
   } catch (err) {
