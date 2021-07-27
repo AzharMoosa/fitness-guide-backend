@@ -26,7 +26,7 @@ router.get("/", auth, async (req, res) => {
 router.get("/active", auth, async (req, res) => {
   try {
     // Find Active Routine
-    let routine = await Routine.find({ user: req.user.id, isActive: true });
+    let routine = await Routine.findOne({ user: req.user.id, isActive: true });
     // Output Routine
     res.json(routine);
   } catch (err) {
