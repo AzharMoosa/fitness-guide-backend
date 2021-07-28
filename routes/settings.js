@@ -80,9 +80,21 @@ router.put("/:id", auth, async (req, res) => {
     // Create Updated Settings
     updatedSettings.health_information.date_of_birth =
       date_of_birth || health.date_of_birth;
+    if (date_of_birth == "") {
+      updatedSettings.health_information.date_of_birth = "";
+    }
     updatedSettings.health_information.gender = gender || health.gender;
+    if (gender == "") {
+      updatedSettings.health_information.gender = "";
+    }
     updatedSettings.health_information.height = height || health.height;
+    if (height == "") {
+      updatedSettings.health_information.height = "";
+    }
     updatedSettings.health_information.weight = weight || health.weight;
+    if (weight == "") {
+      updatedSettings.health_information.weight = "";
+    }
     updatedSettings.chat_settings.custom_name = custom_name || chat.custom_name;
     if (custom_name == "") {
       updatedSettings.chat_settings.custom_name = "";
