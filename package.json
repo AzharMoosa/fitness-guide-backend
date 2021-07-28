@@ -12,12 +12,14 @@
     "data:destroy": "node seeder -d",
     "data:users": "node seeder -u",
     "data:routines": "node seeder -r",
-    "data:exercises": "node seeder -e"
+    "data:exercises": "node seeder -e",
+    "add:exercises": "node data/exercise_list/retrieve_exercises.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.21.1",
     "bcryptjs": "^2.4.3",
     "colors": "^1.4.0",
     "config": "^3.3.6",
